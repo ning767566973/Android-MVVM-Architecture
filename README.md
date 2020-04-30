@@ -2,7 +2,7 @@
 该项目是采用kotlin编写，结合Jetpack架构组件(Databinding 、ViewModel 、LiveData)+Retrofit+协程搭建的项目框架。
 
 ## 特点
-主要是封装网络请求模块（过滤服务器返回异常）
+主要是封装网络请求模块（统一处理服务器返回异常、showLoading、dissmissLoading）,
 只需要在viewModel中调用launchOnlyResult()方法
 ```
 class ArticleListViewModel : BaseViewModel() {
