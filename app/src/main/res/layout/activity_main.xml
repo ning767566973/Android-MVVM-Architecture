@@ -12,6 +12,20 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+        <TextView
+            android:id="@+id/tvEventBus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            app:layout_constraintTop_toBottomOf="@id/tvEventBus"
+            android:onClick="btnJump"
+            android:layout_width="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_height="wrap_content" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

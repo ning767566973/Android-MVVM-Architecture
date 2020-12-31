@@ -5,6 +5,8 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cuining.mvvm.R
+import com.example.common.http.BaseResponse
+import com.example.common.http.ResponseThrowable
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 /**
@@ -62,6 +64,11 @@ private var <T : View> T.triggerDelay: Long
     set(value) {
         setTag(1123461123, value)
     }
+
+ fun <T> BaseResponse<T>.executeResponse(): T {
+     if (this.errorCode == 0) return this.data
+     else throw ResponseThrowable(this.errorCode!!, this.errorMsg!!)
+}
 
 
 

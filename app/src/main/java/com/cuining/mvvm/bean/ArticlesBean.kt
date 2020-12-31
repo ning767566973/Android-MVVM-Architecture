@@ -1,10 +1,13 @@
 package com.cuining.mvvm.bean
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 /**
- *   @auther : Aleyn
+ *   @auther : cuining
  *   time   : 2019/11/01
  */
-
+@Entity
 data class ArticlesBean(
     var apkLink: String? = null,
     var author: String? = null,
@@ -14,6 +17,7 @@ data class ArticlesBean(
     var courseId: Int = 0,
     var desc: String? = null,
     var envelopePic: String? = null,
+    @PrimaryKey
     var id: Int = 0,
     var originId: Int = -1,    // 收藏文章列表里面的原始文章id
     var link: String? = null,

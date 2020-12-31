@@ -1,4 +1,4 @@
-package com.cuining.mvvm.base
+package com.example.common.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

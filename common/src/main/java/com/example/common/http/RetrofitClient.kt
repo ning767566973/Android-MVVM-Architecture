@@ -1,6 +1,6 @@
-package com.cuining.mvvm.http
+package com.example.common.http
 
-import com.cuining.mvvm.BuildConfig
+import com.example.common.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.cuining.mvvm.http
+package com.example.common.http
 
 /**
  * @author: cuining

@@ -1,13 +1,14 @@
-package com.cuining.mvvm.base
+package com.example.common.base
 
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cuining.mvvm.event.SingleLiveEvent
-import com.cuining.mvvm.http.BaseResponse
-import com.meb.openim.http.ExceptionHandle
-import com.cuining.mvvm.http.ResponseThrowable
+import com.example.common.event.SingleLiveEvent
+import com.example.common.http.BaseResponse
+import com.example.common.http.ExceptionHandle
+import com.example.common.http.ResponseThrowable
 import kotlinx.coroutines.*
+import java.lang.Exception
 
 /**
  * @author: cuining
@@ -59,6 +60,26 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                     complete()
                 }
             )
+        }
+    }
+
+    fun diyuhuidiao(
+        gan: suspend CoroutineScope.() -> Unit,
+        error: (ResponseThrowable) -> Unit = {},
+        complete: () -> Unit = {},
+    ) {
+        viewModelScope.launch {
+            coroutineScope {
+                try {
+                    withContext(Dispatchers.IO){
+                        gan()
+                    }
+                } catch (e: Exception) {
+                    error(ExceptionHandle.handleException(e))
+                } finally {
+                    complete()
+                }
+            }
         }
     }
 

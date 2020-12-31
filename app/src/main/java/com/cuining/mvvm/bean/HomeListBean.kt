@@ -1,6 +1,5 @@
 package com.cuining.mvvm.bean
 
-import com.cuining.mvvm.bean.ArticlesBean
 
 /**
  * @author: cuining

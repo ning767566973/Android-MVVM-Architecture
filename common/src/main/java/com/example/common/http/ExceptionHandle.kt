@@ -1,8 +1,6 @@
-package com.meb.openim.http
+package com.example.common.http
 
 import android.net.ParseException
-import com.cuining.mvvm.http.ERROR
-import com.cuining.mvvm.http.ResponseThrowable
 import com.google.gson.JsonParseException
 import com.google.gson.stream.MalformedJsonException
 import org.json.JSONException
@@ -32,7 +30,9 @@ object ExceptionHandle {
             ex = ResponseThrowable(ERROR.TIMEOUT_ERROR, e)
         } else if (e is java.net.UnknownHostException) {
             ex = ResponseThrowable(ERROR.TIMEOUT_ERROR, e)
-        } else {
+        } else if(e is ResponseThrowable){
+            ex = e
+        }else {
             ex = if (!e.message.isNullOrEmpty()) ResponseThrowable(1000, e.message!!, e)
             else ResponseThrowable(ERROR.UNKNOWN, e)
         }

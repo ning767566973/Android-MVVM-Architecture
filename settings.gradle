@@ -1,2 +1,3 @@
+include ':common'
 rootProject.name='Android-MVVM-Architecture'
 include ':app'

@@ -1,15 +1,18 @@
 package com.cuining.mvvm.ui.article
 
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cuining.mvvm.R
-import com.cuining.mvvm.base.BaseActivity
+import com.example.common.base.BaseActivity
+import com.cuining.mvvm.bean.ArticlesBean
 import com.cuining.mvvm.utils.finishRefreshAndLoadMore
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import kotlinx.android.synthetic.main.activity_article_list.*
+import java.util.*
 
 class ArticleListActivity : BaseActivity<ArticleListViewModel, ViewDataBinding>() {
 
@@ -27,16 +30,17 @@ class ArticleListActivity : BaseActivity<ArticleListViewModel, ViewDataBinding>(
             refreshLayout.finishRefreshAndLoadMore()
         })
         viewModel.articleList.observe(this, Observer {
-            if (it.over) {
-                refreshLayout.setNoMoreData(true)
+            if (it.curPage == 1) {
+                mAdapter.setNewInstance(it.datas as MutableList<ArticlesBean>)
             } else {
                 mAdapter.addData(it.datas)
                 refreshLayout.finishRefreshAndLoadMore()
                 page++
             }
+            refreshLayout.setNoMoreData(it.over)
         })
 
-        with(refreshLayout){
+        with(refreshLayout) {
             setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
                 override fun onLoadMore(refreshLayout: RefreshLayout) {
                     getArticleList(page)
@@ -57,8 +61,6 @@ class ArticleListActivity : BaseActivity<ArticleListViewModel, ViewDataBinding>(
     }
 
     override fun initData() {
-
     }
-
 
 }

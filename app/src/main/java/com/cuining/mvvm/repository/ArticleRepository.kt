@@ -1,8 +1,8 @@
 package com.cuining.mvvm.repository
 
 import com.cuining.mvvm.bean.HomeListBean
-import com.cuining.mvvm.http.BaseResponse
-import com.cuining.mvvm.http.RetrofitClient
+import com.example.common.http.BaseResponse
+import com.example.common.http.RetrofitClient
 import com.cuining.mvvm.http.service.ArticleService
 
 /**
