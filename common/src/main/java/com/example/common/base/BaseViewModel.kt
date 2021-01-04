@@ -69,6 +69,9 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         }
     }
 
+    /**
+     * 处理多个网络请求
+     */
     fun launchMoreRequest(
         gan: suspend CoroutineScope.() -> Unit,
         error: (ResponseThrowable) -> Unit = {},

@@ -78,4 +78,14 @@ dependencies {
 
     //liveEventBus
     api 'com.jeremyliao:live-event-bus-x:1.7.3'
+
+    //存储键值对
+    api 'com.tencent:mmkv-static:1.2.7'
+
+    //动态权限
+    api 'com.github.tbruyelle:rxpermissions:0.12'
+
+    //rx
+    api 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    api 'io.reactivex.rxjava3:rxjava:3.0.6'
 }

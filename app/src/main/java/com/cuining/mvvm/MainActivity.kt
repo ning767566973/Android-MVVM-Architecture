@@ -9,17 +9,24 @@ import com.cuining.mvvm.databinding.ActivityMainBinding
 import com.example.common.base.BaseActivity
 import com.example.common.base.NoViewModel
 import com.cuining.mvvm.ui.article.ArticleListActivity
+import com.cuining.mvvm.ui.test.DataBindingTestActivity
 import com.cuining.mvvm.ui.test.NetTestActivity
 import com.cuining.mvvm.ui.test.RoomTestActivity
 import com.jeremyliao.liveeventbus.LiveEventBus
+import com.tbruyelle.rxpermissions3.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import java.util.function.Consumer
 
 class MainActivity : BaseActivity<NoViewModel, ActivityMainBinding>() {
     override fun layoutId() = R.layout.activity_main
 
     override fun initView(savedInstanceState: Bundle?) {
+        RxPermissions(this)
+            .request(android.Manifest.permission.CAMERA)
+            .subscribe {
 
+            }
     }
 
     override fun initData() {
@@ -44,5 +51,9 @@ class MainActivity : BaseActivity<NoViewModel, ActivityMainBinding>() {
     fun btnJump4(view: View) {
         startActivity(Intent(this, NetTestActivity::class.java))
 
+    }
+
+    fun btnJump5(view: View) {
+        startActivity(Intent(this, DataBindingTestActivity::class.java))
     }
 }
