@@ -14,7 +14,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
  * @date: 2019-07-19
  */
 
-fun ImageView.load(url: String) {
+fun ImageView.load(url: String?) {
     Glide.with(this.context)
         .load(url)
         .error(R.mipmap.ic_launcher)

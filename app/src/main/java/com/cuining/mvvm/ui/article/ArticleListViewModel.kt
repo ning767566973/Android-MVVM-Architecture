@@ -2,6 +2,7 @@ package com.cuining.mvvm.ui.article
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.cuining.mvvm.bean.ArticlesBean
 import com.example.common.base.BaseViewModel
 import com.cuining.mvvm.bean.HomeListBean
 import com.example.common.http.BaseResponse
@@ -20,6 +21,7 @@ import kotlinx.coroutines.withContext
 class ArticleListViewModel : BaseViewModel() {
 
     var articleList = MutableLiveData<HomeListBean>()
+    var articleListDb = MutableLiveData<List<ArticlesBean>>()
 
     private val articleRepository by lazy { InjectorUtil.getArticleRepository() }
 
@@ -44,7 +46,7 @@ class ArticleListViewModel : BaseViewModel() {
     }
 
     fun test() {
-        diyuhuidiao({
+        launchMoreRequest({
             var result1 = net1()
             println("第1个请求结果：$result1")
             var result2 = net2()
@@ -87,5 +89,12 @@ class ArticleListViewModel : BaseViewModel() {
             },
             isShowDialog = false
         )
+    }
+
+    fun getArticleListFromDb() {
+        launchIO {
+            val articles = DbUtils.getArticleDao().getArticles(1)
+            articleListDb.postValue(articles)
+        }
     }
 }

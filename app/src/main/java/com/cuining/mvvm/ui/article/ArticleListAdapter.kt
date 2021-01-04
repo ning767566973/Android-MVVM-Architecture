@@ -24,9 +24,7 @@ class ArticleListAdapter :
             it.executePendingBindings()
         }
         val imageView = holder.getView<ImageView>(R.id.iv_article_ic)
-        item.envelopePic?.let { imageView.load(it) }
-
+        imageView.load(item.envelopePic)
     }
-
 
 }

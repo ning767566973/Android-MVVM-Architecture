@@ -12,7 +12,7 @@ import com.cuining.mvvm.room.converter.TestBListConvert
 @TypeConverters(TestBListConvert::class)
 data class TestABean(
     @PrimaryKey(autoGenerate = true)
-    var id:Int,
-    var name:String?,
-    var list:List<TestBBean>?
+    var id: Int = 0,
+    var name: String?,
+    var list: List<TestBBean>?
 )

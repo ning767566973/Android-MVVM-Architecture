@@ -39,7 +39,7 @@ object DbUtils {
         return db.articleDao()
     }
 
-    fun getTestADao(): TestADao? {
+    fun getTestADao(): TestADao {
         return db.testADao()
     }
 }

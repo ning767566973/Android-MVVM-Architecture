@@ -14,4 +14,6 @@ interface ArticleService {
 
     @GET("article/listproject/{page}/json")
     suspend fun getArticle(@Path("page")page: Int): BaseResponse<HomeListBean>
+    @GET("hotkey/json")
+    suspend fun getHotkey(): BaseResponse<Any>
 }

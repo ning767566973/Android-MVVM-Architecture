@@ -5,9 +5,11 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.ToastUtils
 import com.cuining.mvvm.R
 import com.example.common.base.BaseActivity
 import com.cuining.mvvm.bean.ArticlesBean
+import com.cuining.mvvm.room.dao.DbUtils
 import com.cuining.mvvm.utils.finishRefreshAndLoadMore
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
@@ -26,41 +28,52 @@ class ArticleListActivity : BaseActivity<ArticleListViewModel, ViewDataBinding>(
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = mAdapter
 
-        viewModel.defUI.refreshFinishEvent.observe(this, Observer {
-            refreshLayout.finishRefreshAndLoadMore()
-        })
-        viewModel.articleList.observe(this, Observer {
-            if (it.curPage == 1) {
-                mAdapter.setNewInstance(it.datas as MutableList<ArticlesBean>)
-            } else {
-                mAdapter.addData(it.datas)
+        with(viewModel) {
+            defUI.refreshFinishEvent.observe(this@ArticleListActivity, Observer {
                 refreshLayout.finishRefreshAndLoadMore()
-                page++
-            }
-            refreshLayout.setNoMoreData(it.over)
-        })
+            })
+            articleList.observe(this@ArticleListActivity, Observer {
+                if (it.curPage == 1) {
+                    mAdapter.setNewInstance(it.datas as MutableList<ArticlesBean>)
+                } else {
+                    mAdapter.addData(it.datas)
+                    refreshLayout.finishRefreshAndLoadMore()
+                    page++
+                }
+                refreshLayout.setNoMoreData(it.over)
+            })
+            articleListDb.observe(this@ArticleListActivity, Observer {
+                mAdapter.setNewInstance(it as MutableList<ArticlesBean>)
+            })
+        }
 
         with(refreshLayout) {
             setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
                 override fun onLoadMore(refreshLayout: RefreshLayout) {
-                    getArticleList(page)
+                    viewModel.getArticleList(page)
                 }
 
                 override fun onRefresh(refreshLayout: RefreshLayout) {
                     refreshLayout.resetNoMoreData()
                     page = 1
-                    getArticleList(page)
+                    viewModel.getArticleList(page)
                 }
             })
-            autoRefresh()
+        }
+
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            (adapter.data[position] as ArticlesBean).link?.let {
+                ArticleDetailActivity.start(this, it)
+            }
         }
     }
 
-    private fun getArticleList(page: Int) {
-        viewModel.getArticleList(page)
-    }
 
     override fun initData() {
+        //先从数据库拿了一页回来
+        viewModel.getArticleListFromDb()
+        //刷新
+        refreshLayout.autoRefresh()
     }
 
 }

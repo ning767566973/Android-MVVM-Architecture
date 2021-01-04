@@ -12,7 +12,7 @@ import java.lang.reflect.Type
  */
 class TestBListConvert {
     @TypeConverter
-    fun stringToList(value: String?):List<TestBBean>{
+    fun stringToList(value: String?):List<TestBBean>?{
         val gson = Gson()
         if (value == null) {
             return emptyList()
@@ -22,7 +22,7 @@ class TestBListConvert {
     }
 
     @TypeConverter
-    fun listToString(value :List<TestBBean?>?) :String{
+    fun listToString(value :List<TestBBean?>?) :String?{
         return Gson().toJson(value)
     }
 }

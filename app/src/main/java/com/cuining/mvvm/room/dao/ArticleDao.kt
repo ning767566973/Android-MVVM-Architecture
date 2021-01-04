@@ -1,7 +1,6 @@
 package com.cuining.mvvm.room.dao
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -21,6 +20,6 @@ interface ArticleDao {
     fun insertAll(articlesBean: List<ArticlesBean>?)
 
     @Query("select * from articlesbean order by publishTime desc limit 10 offset :page*10")
-    fun getArticles(page:Int): LiveData<List<ArticlesBean>>
+    fun getArticles(page:Int): List<ArticlesBean>
 
 }

@@ -24,7 +24,13 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
      */
     fun launchUI(block: suspend CoroutineScope.() -> Unit) = viewModelScope.launch { block() }
 
-
+    fun launchIO(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                block()
+            }
+        }
+    }
     /**
      * 过滤请求结果，其他全抛异常
      * @param block 请求体
@@ -63,7 +69,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         }
     }
 
-    fun diyuhuidiao(
+    fun launchMoreRequest(
         gan: suspend CoroutineScope.() -> Unit,
         error: (ResponseThrowable) -> Unit = {},
         complete: () -> Unit = {},
