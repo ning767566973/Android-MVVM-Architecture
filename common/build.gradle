@@ -51,6 +51,9 @@ dependencies {
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     api "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+
+    api "androidx.fragment:fragment-ktx:1.2.5"
+
     //recyclerview
     api 'androidx.recyclerview:recyclerview:1.1.0'
     //retrofit
@@ -88,4 +91,5 @@ dependencies {
     //rx
     api 'io.reactivex.rxjava3:rxandroid:3.0.0'
     api 'io.reactivex.rxjava3:rxjava:3.0.6'
+
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.cuining.mvvm.http.service.ArticleService
 import com.cuining.mvvm.room.dao.DbUtils
 import com.cuining.mvvm.utils.executeResponse
+import com.cuining.mvvm.utils.getArticleService
 import com.example.common.base.BaseViewModel
 import com.example.common.http.BaseResponse
 import com.example.common.http.RetrofitClient
@@ -18,10 +19,14 @@ class NetTestViewModel : BaseViewModel() {
 
     fun oneRequest() {
         launchOnlyResult({
-            RetrofitClient.getService(ArticleService::class.java).getHotkey()
+            getArticleService().getHotkey()
         }, {
-            oneResult.value=it
-        })
+            oneResult.value = it
+        }, {
+
+        }, {
+
+        }, isShowDialog = true, isShowErrorMsg = false)
     }
 
     suspend fun net1(): String {
@@ -31,7 +36,7 @@ class NetTestViewModel : BaseViewModel() {
 
     suspend fun net2(result1: String): Int {
         delay(1000)
-        return result1.toInt()+1
+        return result1.toInt() + 1
     }
 
     suspend fun net3(): Int {
@@ -39,37 +44,31 @@ class NetTestViewModel : BaseViewModel() {
 //        throw NullPointerException("xixixixixixii")
         return 3
     }
+
     suspend fun net4(): BaseResponse<Any?> {
         delay(2000)
-        return BaseResponse("服务器炸了",404,null)
+        return BaseResponse("服务器炸了", 404, null)
     }
 
-    var moreResult=MutableLiveData<String>()
+    var moreResult = MutableLiveData<String>()
     fun moreRequest() {
         launchMoreRequest({
             var result1 = net1()
             moreResult.postValue("第1个请求结果：$result1")
-            println("第1个请求结果：$result1")
             var result2 = net2(result1)
             moreResult.postValue("第2个请求结果：$result2")
-            println("第2个请求结果：$result2")
-            var result3 = net3()
-            moreResult.postValue("第3个请求结果：$result3")
-            println("第3个请求结果：$result3")
-//            var result4 = net4().executeResponse()
-//            println("第4个请求结果：$result4")
-            var result5 = RetrofitClient.getService(ArticleService::class.java).getArticle(result2).executeResponse()
+            var result3 = getArticleService().getHotkey()
+            moreResult.postValue("第3个请求结果：${Gson().toJson(result3)}")
+            var result4 = net4().executeResponse()
+            var result5 = getArticleService().getHotkey()
+                .executeResponse()
             //存数据库
-            DbUtils.getArticleDao().insertAll(result5.datas)
+//            DbUtils.getArticleDao().insertAll(result5.datas)
             moreResult.postValue("最后一个请求结果：${Gson().toJson(result5)}")
-
-            println("第5个请求结果：$result5")
         }, {
-            moreResult.postValue("请求结果报错了${it.errMsg}")
-            println("请求结果报错了${it.errMsg}")
+            moreResult.value = "请求结果报错了${it.errMsg}"
         }, {
-            moreResult.postValue("请求结果完毕")
-            println("请求结果完毕")
+            moreResult.value = "请求结果完毕"
         })
     }
 

@@ -26,11 +26,12 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
 
     fun launchIO(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 block()
             }
         }
     }
+
     /**
      * 过滤请求结果，其他全抛异常
      * @param block 请求体
@@ -57,7 +58,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
                 },
                 {
                     if (isShowErrorMsg) {
-                        defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+                        defUI.toastEvent.postValue("${it.errMsg}")
                     }
                     error(it)
                 },
@@ -73,19 +74,27 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
      * 处理多个网络请求
      */
     fun launchMoreRequest(
-        gan: suspend CoroutineScope.() -> Unit,
+        moreRequest: suspend CoroutineScope.() -> Unit,
         error: (ResponseThrowable) -> Unit = {},
         complete: () -> Unit = {},
+        isShowDialog: Boolean = true,
+        isShowErrorMsg: Boolean = true
     ) {
+        if (isShowDialog) defUI.showDialog.call()
         viewModelScope.launch {
             coroutineScope {
                 try {
-                    withContext(Dispatchers.IO){
-                        gan()
+                    withContext(Dispatchers.IO) {
+                        moreRequest()
                     }
                 } catch (e: Exception) {
-                    error(ExceptionHandle.handleException(e))
+                    val handleException = ExceptionHandle.handleException(e)
+                    if (isShowErrorMsg) {
+                        defUI.toastEvent.postValue("${handleException.errMsg}")
+                    }
+                    error(handleException)
                 } finally {
+                    defUI.dismissDialog.call()
                     complete()
                 }
             }

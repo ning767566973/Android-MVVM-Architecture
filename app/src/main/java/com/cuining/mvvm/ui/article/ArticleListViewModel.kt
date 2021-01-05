@@ -5,10 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.cuining.mvvm.bean.ArticlesBean
 import com.example.common.base.BaseViewModel
 import com.cuining.mvvm.bean.HomeListBean
+import com.cuining.mvvm.http.service.ArticleService
 import com.example.common.http.BaseResponse
 import com.cuining.mvvm.room.dao.DbUtils
 import com.cuining.mvvm.utils.InjectorUtil
 import com.cuining.mvvm.utils.executeResponse
+import com.cuining.mvvm.utils.getArticleService
+import com.example.common.http.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -71,7 +74,7 @@ class ArticleListViewModel : BaseViewModel() {
     fun getArticleList(page: Int) {
         launchOnlyResult(
             {
-                articleRepository.getArticleList(page)
+               getArticleService().getArticle(page)
             },
             {
                 articleList.value = it
@@ -86,8 +89,7 @@ class ArticleListViewModel : BaseViewModel() {
             },
             complete = {
                 defUI.refreshFinishEvent.call()
-            },
-            isShowDialog = false
+            }
         )
     }
 

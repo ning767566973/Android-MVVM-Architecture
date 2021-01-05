@@ -15,8 +15,8 @@ class DataBindingViewModel : BaseViewModel() {
     fun request(toString: String) {
         //模拟一个网络请求
         viewModelScope.launch {
-            delay(500)
-            result.value=toString
+            delay(5000)
+            result.value="数据改变：·$toString"
         }
     }
 

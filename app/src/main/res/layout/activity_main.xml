@@ -51,5 +51,10 @@
             android:onClick="btnJump5"
             android:text="数据绑定" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btnJump6"
+            android:text="ViewModel共享" />
     </LinearLayout>
 </layout>

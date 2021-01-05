@@ -12,6 +12,7 @@ import com.cuining.mvvm.ui.article.ArticleListActivity
 import com.cuining.mvvm.ui.test.DataBindingTestActivity
 import com.cuining.mvvm.ui.test.NetTestActivity
 import com.cuining.mvvm.ui.test.RoomTestActivity
+import com.cuining.mvvm.ui.test.ViewModelTestActivity
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.tbruyelle.rxpermissions3.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
@@ -55,5 +56,10 @@ class MainActivity : BaseActivity<NoViewModel, ActivityMainBinding>() {
 
     fun btnJump5(view: View) {
         startActivity(Intent(this, DataBindingTestActivity::class.java))
+    }
+
+    fun btnJump6(view: View) {
+        startActivity(Intent(this, ViewModelTestActivity::class.java))
+
     }
 }

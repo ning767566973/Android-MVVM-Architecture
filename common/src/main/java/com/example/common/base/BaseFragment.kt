@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.*
 import com.blankj.utilcode.util.ToastUtils
 import java.lang.reflect.ParameterizedType
 
@@ -22,11 +22,8 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
 
     protected var mBinding: DB? = null
 
-
-    override fun onStart() {
-        super.onStart()
-    }
-
+    //是否第一次加载
+    private var isFirst: Boolean = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +50,20 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
 
     open fun initView(savedInstanceState: Bundle?) {}
 
+    /**
+     * 是否需要懒加载
+     */
+    private fun onVisible() {
+        if (lifecycle.currentState == Lifecycle.State.STARTED && isFirst) {
+            lazyLoadData()
+            isFirst = false
+        }
+    }
+
+    /**
+     * 懒加载
+     */
+    open fun lazyLoadData() {}
 
 
     abstract fun layoutId(): Int
@@ -76,7 +87,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
      * 打开等待框
      */
     private fun showLoading() {
-       //todo
+        //todo
     }
 
     /**
@@ -89,6 +100,7 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
     /**
      * 是否和 Activity 共享 ViewModel,默认不共享
      * Fragment 要和宿主 Activity 的泛型是同一个 ViewModel
+     * 如果共享使用livedata时小心
      */
     open fun isShareVM(): Boolean = false
 
@@ -101,8 +113,12 @@ abstract class BaseFragment<VM : BaseViewModel, DB : ViewDataBinding> : Fragment
         if (type is ParameterizedType) {
             val tp = type.actualTypeArguments[0]
             val tClass = tp as? Class<VM> ?: BaseViewModel::class.java
-            val viewModelStore = if (isShareVM()) requireActivity().viewModelStore else this.viewModelStore
-            viewModel =  ViewModelProvider(this).get(tClass)  as VM
+//            viewModel =
+//                ViewModelProvider(viewModelStore, defaultViewModelProviderFactory).get(tClass) as VM
+//            val viewModelStore = if (isShareVM()) requireActivity().viewModelStore else this.viewModelStore
+//            viewModel =  ViewModelProvider(this).get(tClass)  as VM
+            viewModel =
+                ViewModelProvider(if (isShareVM()) requireActivity() else this).get(tClass) as VM
         }
     }
 }

@@ -5,14 +5,19 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.cuining.mvvm.R
+import com.cuining.mvvm.http.service.ArticleService
 import com.example.common.http.BaseResponse
 import com.example.common.http.ResponseThrowable
+import com.example.common.http.RetrofitClient
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 
 /**
  * @author: cuining
  * @date: 2019-07-19
  */
+fun getArticleService(): ArticleService {
+    return RetrofitClient.getService(ArticleService::class.java)
+}
 
 fun ImageView.load(url: String?) {
     Glide.with(this.context)
@@ -65,9 +70,9 @@ private var <T : View> T.triggerDelay: Long
         setTag(1123461123, value)
     }
 
- fun <T> BaseResponse<T>.executeResponse(): T {
-     if (this.errorCode == 0) return this.data
-     else throw ResponseThrowable(this.errorCode!!, this.errorMsg!!)
+fun <T> BaseResponse<T>.executeResponse(): T {
+    if (this.errorCode == 0) return this.data
+    else throw ResponseThrowable(this.errorCode!!, this.errorMsg!!)
 }
 
 

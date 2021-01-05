@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 
 /**
  *   @auther : cuining
- *   time   : 2019/11/01
  */
 @Entity
 data class ArticlesBean(

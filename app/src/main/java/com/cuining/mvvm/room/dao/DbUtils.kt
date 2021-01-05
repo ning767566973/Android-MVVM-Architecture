@@ -31,7 +31,7 @@ object DbUtils {
                         database.execSQL("DROP TABLE test_c")
                     }
                 })
-//            .allowMainThreadQueries() //允许在主线程中查询
+            .allowMainThreadQueries() //允许在主线程中查询
             .build()
     }
 
