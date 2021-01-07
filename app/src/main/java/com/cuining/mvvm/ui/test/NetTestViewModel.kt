@@ -18,15 +18,23 @@ class NetTestViewModel : BaseViewModel() {
     var oneResult = MutableLiveData<Any>()
 
     fun oneRequest() {
-        launchOnlyResult({
-            getArticleService().getHotkey()
-        }, {
-            oneResult.value = it
-        }, {
-
-        }, {
-
-        }, isShowDialog = true, isShowErrorMsg = false)
+        launchOnlyResult(
+            {
+                //retrofit网络请求
+                getArticleService().getHotkey()
+            },
+            {
+                //返回data层
+            },
+            {
+                //异常捕获
+            },
+            {
+                //请求完成
+            },
+            isShowDialog = true,//是否显示加载框
+            isShowErrorMsg = false//是否弹错误信息toast
+        )
     }
 
     suspend fun net1(): String {
@@ -70,6 +78,22 @@ class NetTestViewModel : BaseViewModel() {
         }, {
             moreResult.value = "请求结果完毕"
         })
+    }
+
+    fun more() {
+        launchMoreRequest(
+            {
+                //多个retrofit网络请求 数据库存储
+            },
+            {
+                //捕获异常
+            },
+            {
+                //完成
+            },
+            isShowDialog = false,
+            isShowErrorMsg = false
+        )
     }
 
 }

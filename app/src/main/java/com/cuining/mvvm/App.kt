@@ -1,6 +1,7 @@
 package com.cuining.mvvm
 
 import android.app.Application
+import com.cuining.mvvm.objectbox.ObjectBox
 import com.cuining.mvvm.room.dao.DbUtils
 import com.tencent.mmkv.MMKV
 
@@ -14,5 +15,7 @@ class App : Application() {
         super.onCreate()
         DbUtils.init(this)
         val rootDir = MMKV.initialize(this)
+
+        ObjectBox.init(this)
     }
 }

@@ -9,10 +9,7 @@ import com.cuining.mvvm.databinding.ActivityMainBinding
 import com.example.common.base.BaseActivity
 import com.example.common.base.NoViewModel
 import com.cuining.mvvm.ui.article.ArticleListActivity
-import com.cuining.mvvm.ui.test.DataBindingTestActivity
-import com.cuining.mvvm.ui.test.NetTestActivity
-import com.cuining.mvvm.ui.test.RoomTestActivity
-import com.cuining.mvvm.ui.test.ViewModelTestActivity
+import com.cuining.mvvm.ui.test.*
 import com.jeremyliao.liveeventbus.LiveEventBus
 import com.tbruyelle.rxpermissions3.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,6 +57,11 @@ class MainActivity : BaseActivity<NoViewModel, ActivityMainBinding>() {
 
     fun btnJump6(view: View) {
         startActivity(Intent(this, ViewModelTestActivity::class.java))
+
+    }
+
+    fun btnJump7(view: View) {
+        startActivity(Intent(this, ObjectBoxActivity::class.java))
 
     }
 }

@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="btnJump3"
-            android:text="数据库" />
+            android:text="room数据库" />
 
 
         <Button
@@ -56,5 +56,11 @@
             android:layout_height="wrap_content"
             android:onClick="btnJump6"
             android:text="ViewModel共享" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btnJump7"
+            android:text="ObjectBox数据库" />
     </LinearLayout>
 </layout>
