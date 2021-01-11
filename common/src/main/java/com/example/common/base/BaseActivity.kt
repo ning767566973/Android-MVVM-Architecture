@@ -1,12 +1,18 @@
 package com.example.common.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.blankj.utilcode.util.ToastUtils
+import com.example.common.R
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -19,6 +25,8 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
 
     protected var mBinding: DB? = null
 
+    lateinit var mTvTitle: TextView
+    lateinit var mToolBar: Toolbar
 
     override fun onStart() {
         super.onStart()
@@ -58,8 +66,23 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
         if (ViewDataBinding::class.java != cls && ViewDataBinding::class.java.isAssignableFrom(cls)) {
             mBinding = DataBindingUtil.setContentView(this, layoutId())
             mBinding?.lifecycleOwner = this
-        } else setContentView(layoutId())
+        } else setContentView(getLayout())
         createViewModel()
+    }
+
+    private fun getLayout(): View {
+        val view = LayoutInflater.from(this).inflate(R.layout.layout_base_activity, null)
+        var linearContent = view.findViewById<LinearLayout>(R.id.linearContent)
+        mToolBar = view.findViewById<Toolbar>(R.id.toolBar)
+        mTvTitle = view.findViewById<TextView>(R.id.tvTitle)
+        mToolBar.visibility = if (isShowToolBar()) View.VISIBLE else View.GONE
+        setSupportActionBar(mToolBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false);
+        mToolBar.setNavigationOnClickListener {
+            onBackPressed()
+        }
+        LayoutInflater.from(this).inflate(layoutId(), linearContent, true)
+        return view
     }
 
     /**
@@ -87,8 +110,28 @@ abstract class BaseActivity<VM : BaseViewModel, DB : ViewDataBinding> : AppCompa
      */
     private fun dismissLoading() {
     }
-
-
+    /**
+     * 设置title
+     * 自动显示Toolbar
+     */
+    fun setTitle(title: String?) {
+        if (mToolBar.visibility == View.GONE) mToolBar.visibility = View.VISIBLE
+        mTvTitle.text = title
+    }
+    //以下代码是toolbar 右上角menu 可以copy到具体activity修改
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.more_menu, menu)
+//        return true
+//    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.action_more -> {
+//
+//            }
+//        }
+//        return true
+//    }
+    open fun isShowToolBar(): Boolean = false
     abstract fun layoutId(): Int
     abstract fun initView(savedInstanceState: Bundle?)
     abstract fun initData()
