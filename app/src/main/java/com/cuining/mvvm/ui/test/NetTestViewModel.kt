@@ -68,8 +68,10 @@ class NetTestViewModel : BaseViewModel() {
             var result3 = getArticleService().getHotkey()
             moreResult.postValue("第3个请求结果：${Gson().toJson(result3)}")
             var result4 = net4().executeResponse()
+
+
             var result5 = getArticleService().getHotkey()
-                .executeResponse()
+
             //存数据库
 //            DbUtils.getArticleDao().insertAll(result5.datas)
             moreResult.postValue("最后一个请求结果：${Gson().toJson(result5)}")

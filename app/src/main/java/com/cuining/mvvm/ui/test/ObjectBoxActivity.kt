@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -77,7 +78,7 @@ class ObjectBoxActivity : BaseActivity<ObjectViewModel, ViewDataBinding>() {
         val build = ObjectBox.boxStore.boxFor(Student::class.java)
             .query()
             .build()
-        ObjectBoxLiveData(build).observe(this, {
+        ObjectBoxLiveData(build).observe(this, Observer{
             adapter.setNewInstance(it)
         })
 

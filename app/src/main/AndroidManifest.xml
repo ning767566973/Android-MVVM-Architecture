@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.test.ObjectBoxActivity"></activity>
+        <activity android:name=".ui.test.FlowTestActivity"></activity>
+        <activity android:name=".ui.test.ObjectBoxActivity" />
         <activity android:name=".ui.test.DemoActivity" />
         <activity android:name=".ui.test.ViewModelTestActivity" />
         <activity android:name=".ui.test.DataBindingTestActivity" />

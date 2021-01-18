@@ -57,11 +57,13 @@ class MainActivity : BaseActivity<NoViewModel, ActivityMainBinding>() {
 
     fun btnJump6(view: View) {
         startActivity(Intent(this, ViewModelTestActivity::class.java))
-
     }
 
     fun btnJump7(view: View) {
         startActivity(Intent(this, ObjectBoxActivity::class.java))
+    }
 
+    fun btnJump8(view: View) {
+        startActivity(Intent(this, FlowTestActivity::class.java))
     }
 }

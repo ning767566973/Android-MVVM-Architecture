@@ -62,5 +62,11 @@
             android:layout_height="wrap_content"
             android:onClick="btnJump7"
             android:text="ObjectBox数据库" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btnJump8"
+            android:text="Flow" />
     </LinearLayout>
 </layout>
