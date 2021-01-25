@@ -4,6 +4,9 @@ import com.cuining.mvvm.bean.HomeListBean
 import com.example.common.http.BaseResponse
 import com.example.common.http.RetrofitClient
 import com.cuining.mvvm.http.service.ArticleService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.lang.RuntimeException
 
 /**
  * @author: cuining
@@ -11,9 +14,9 @@ import com.cuining.mvvm.http.service.ArticleService
  */
 class ArticleRepository {
 
-    suspend fun getArticleList(page:Int): BaseResponse<HomeListBean> {
+    suspend fun getArticleList(page: Int) = withContext(Dispatchers.IO) {
         //可以做缓存
-        return RetrofitClient.getService(ArticleService::class.java).getArticle(page)
+        RetrofitClient.getService(ArticleService::class.java).getArticle(page)
     }
 
     companion object {

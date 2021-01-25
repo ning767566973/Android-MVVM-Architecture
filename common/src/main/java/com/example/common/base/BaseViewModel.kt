@@ -71,7 +71,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         viewModelScope.launch {
             coroutineScope {
                 try {
-                    withContext(Dispatchers.IO){
+                    withContext(Dispatchers.IO) {
                         gan()
                     }
                 } catch (e: Exception) {
@@ -82,6 +82,36 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
             }
         }
     }
+
+    fun <T> launch(
+        block: suspend () -> BaseResponse<T>,
+        success: (T) -> Unit,
+        error: (ResponseThrowable) -> Unit = {
+        },
+        complete: () -> Unit = {},
+        isShowDialog: Boolean = true,
+        isShowErrorMsg: Boolean = true
+    ) {
+        if (isShowDialog) defUI.showDialog.call()
+        launchUI {
+            try {
+                val response = block()
+                if (response.errorCode == 0) success(response.data)
+                else throw ResponseThrowable(response.errorCode!!, response.errorMsg!!)
+            } catch (e: Exception) {
+                val it = ExceptionHandle.handleException(e)
+                if (isShowErrorMsg) {
+                    defUI.toastEvent.postValue("${it.code}:${it.errMsg}")
+                }
+                error(it)
+            } finally {
+                defUI.dismissDialog.call()
+                complete()
+            }
+        }
+    }
+
+
 
     /**
      * 请求结果过滤

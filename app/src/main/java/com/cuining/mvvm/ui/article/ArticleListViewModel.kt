@@ -38,9 +38,10 @@ class ArticleListViewModel : BaseViewModel() {
 //        throw NullPointerException("xixixixixixii")
         return 1
     }
+
     suspend fun net4(): BaseResponse<Any?> {
         delay(2000)
-        return BaseResponse("服务器炸了",404,null)
+        return BaseResponse("服务器炸了", 404, null)
     }
 
     fun test() {
@@ -65,27 +66,37 @@ class ArticleListViewModel : BaseViewModel() {
     }
 
 
-
     fun getArticleList(page: Int) {
-        launchOnlyResult(
+        launch(
             {
                 articleRepository.getArticleList(page)
             },
             {
                 articleList.value = it
-
-                viewModelScope.launch {
-                    withContext(Dispatchers.IO){
-                        DbUtils.getArticleDao().insertAll(it.datas)
-                    }
-                }
-
-
             },
             complete = {
                 defUI.refreshFinishEvent.call()
-            },
-            isShowDialog = false
+            }
         )
+//        launchOnlyResult(
+//            {
+//                articleRepository.getArticleList(page)
+//            },
+//            {
+//                articleList.value = it
+//
+//                viewModelScope.launch {
+//                    withContext(Dispatchers.IO){
+//                        DbUtils.getArticleDao().insertAll(it.datas)
+//                    }
+//                }
+//
+//
+//            },
+//            complete = {
+//                defUI.refreshFinishEvent.call()
+//            },
+//            isShowDialog = false
+//        )
     }
 }
